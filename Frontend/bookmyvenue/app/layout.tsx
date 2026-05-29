@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Figtree, Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/ui/navbar";
+import { Footer } from "@/components/Footer";
 
 const robotoHeading = Roboto({subsets:['latin'],variable:'--font-heading'});
 
@@ -24,8 +26,12 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", figtree.variable, robotoHeading.variable)}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="min-h-svh p-6 max-w-7xl mx-auto overflow-x-scroll no-scrollbar">
+        <ThemeProvider>
+           <Navbar /> 
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )
