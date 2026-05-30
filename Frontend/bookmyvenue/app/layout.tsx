@@ -26,7 +26,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", figtree.variable, robotoHeading.variable)}
     >
-      <body className="min-h-svh p-6 max-w-7xl mx-auto overflow-x-scroll no-scrollbar">
+      <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
            <Navbar /> 
           {children}

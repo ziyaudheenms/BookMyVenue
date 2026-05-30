@@ -3,7 +3,7 @@ import { IconCake , IconBuildingSkyscraper ,IconBuildingBank , IconBuildingArch 
 
 function Filters() {
   return (
-    <div className='w-full overflow-x-scroll flex items-center gap-3 font-sans text-sm md:text-md lg:text-lg font-medium text-foreground px-2 no-scrollbar'>
+    <div className='w-full md:max-w-7xl mx-auto md:px-5 overflow-x-scroll flex items-center gap-3 font-sans text-sm md:text-md lg:text-lg font-medium text-foreground px-2 no-scrollbar'>
         <div className='cursor-pointer hover:text-foreground/70 transition-colors duration-300 flex flex-col items-center'>
             <IconCake className='inline-block mr-2 md:hidden'/>
             Birthday
