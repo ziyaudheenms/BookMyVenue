@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono, Figtree, Roboto } from "next/font/google"
 
-import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/Footer";
 
 const robotoHeading = Roboto({subsets:['latin'],variable:'--font-heading'});
@@ -27,8 +27,9 @@ export default function RootLayout({
     >
       <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
+           <Navbar type="user"/> 
           {children}
-          <Footer />
+       
         </ThemeProvider>
       </body>
     </html>

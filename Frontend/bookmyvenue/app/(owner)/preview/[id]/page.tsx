@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { IconAirConditioning, IconBox, IconBrandOffice, IconBrandWhatsapp, IconClock, IconFileDescription, IconMail, IconMapPin, IconMoneybagMove, IconParking, IconPhoneCall, IconPlayBasketball, IconPlayCard, IconRuler, IconStar, IconStarFilled, IconTimeDuration0, IconToolsKitchen2, IconUsersGroup, IconWifi, IconWriting } from '@tabler/icons-react'
 import { Gallery } from '@/components/gallery'
+import { UpComing } from '@/components/upComing'
+import { RevenueStats } from '@/components/revenueStats'
 
 const items = [
     'birthday', 'wedding', 'conference', 'meetup', 'workshop'
@@ -12,7 +14,7 @@ const items = [
 
 function page() {
     return (
-        <div className='flex flex-col gap-6 w-full md:max-w-7xl mx-auto px-2'>
+        <div className='flex flex-col gap-4 w-full md:max-w-7xl mx-auto px-2'>
             <div className='w-full md:max-w-7xl mx-auto relative  h-96 flex items-center rounded-3xl px-2 max-w-full'>
                 <Image src={'https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png'} alt='Event cover' fill className='object-cover brightness-40 rounded-3xl w-full h-96 relative' />
                 <div className='absolute md:top-8 left-4 flex items-center gap-4'>
@@ -44,7 +46,7 @@ function page() {
                         <IconStarFilled className='text-primary' size={16} />
                         <p className="font-mono font-medium text-md">4.5 / <span className="font-bold text-lg">5</span></p>
                     </div>
-                    <Button className=' md:h-14 md:w-44 brightness-100 hover:brightness-90 transition-all duration-300 hover:scale-90'>Book Now</Button>
+                    <Button className=' md:h-14 md:w-44 brightness-100 hover:brightness-90 transition-all duration-300 hover:scale-90'>Rate Manager</Button>
 
                 </div>
             </div>
@@ -173,6 +175,7 @@ function page() {
                 </div>
             </div>
 
+
             <div className='my-5 px-2 '>
                 <h3 className='font-heading font-bold text-xl md:text-2xl '>The Perfect Path To Reach Us</h3>
                 <div className='my-2 flex gap-2 overflow-x-scroll no-scrollbar'>
@@ -184,9 +187,12 @@ function page() {
 
             <div className='my-5 px-2  flex items-center justify-center '>
                 <div className='bg-primary font-heading w-full text-center py-4 rounded-3xl md:w-64 text-background'>
-                    Book Now
+                    Edit The Venue
                 </div>
             </div>
+
+            <UpComing />
+            <RevenueStats />
         </div>
     )
 }
