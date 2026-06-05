@@ -482,7 +482,7 @@ function Page() {
                   >
                     <div className="flex items-start justify-between gap-1">
                       <div>
-                        <h4 className="font-bold text-sm tracking-tight text-foreground truncate w-44 md:w-56 lg:w-40 xl:w-52">
+                        <h4 className="font-heading font-bold text-sm tracking-tight text-foreground truncate w-44 md:w-56 lg:w-40 xl:w-52">
                           {venue.name}
                         </h4>
                         <p className="text-xs text-muted-foreground flex items-center gap-0.5 mt-0.5">
@@ -535,7 +535,7 @@ function Page() {
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex items-center justify-between border-b border-border/80 pb-2">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <h2 className="text-xl font-heading font-bold tracking-tight text-foreground flex items-center gap-2">
               <IconBuilding className="text-primary" /> Existing Listed Venues
             </h2>
             <p className="text-sm text-muted-foreground">Monitor statistics and configuration values for your venues</p>
@@ -546,72 +546,16 @@ function Page() {
         </div>
 
         <div>
-          <VenueLister isOwnerView={true} list={[
-            {
-              id: 1,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 2,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 3,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 4,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 5,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 6,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 7,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            },
-            {
-
-              id: 8,
-              image: "https://www.alsajconventioncenter.com/wp-content/uploads/2023/07/Arena.png",
-              name: "Design systems meetup",
-              rating: 4.5,
-              cats: ["Conference", "Meetup", "Workshop"]
-            }
-
-          ]} />
+          <VenueLister isOwnerView={true} list={MOCK_LISTED_VENUES.map(venue => ({
+            id: venue.id,
+            name: venue.name,
+            rating: venue.rating,
+            cats: venue.cats,
+            image: venue.image,
+            bookingsThisMonth: venue.bookingsThisMonth,
+            revenueThisMonth: venue.revenueThisMonth,
+            revenueThisYear: venue.revenueThisYear
+          }))} />
         </div>
       </div>
 

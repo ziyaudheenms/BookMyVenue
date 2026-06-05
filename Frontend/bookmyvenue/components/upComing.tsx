@@ -5,9 +5,9 @@ import { Button } from './ui/button'
 
 function UpComing() {
     return (
-        <div className='w-full md:max-w-7xl mx-auto flex flex-col gap-1'>
+        <div className='w-full md:max-w-7xl mx-auto flex flex-col gap-1 font-sans'>
             <div>
-                <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                <h2 className="text-xl font-heading font-bold tracking-tight text-foreground flex items-center gap-2">
                     <IconClock className="text-primary" /> Upcoming Events
                 </h2>
                 <p className="text-sm text-muted-foreground">Monitor upcoming events for your venues</p>
@@ -21,13 +21,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>
@@ -39,13 +39,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>
@@ -57,13 +57,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>
@@ -75,13 +75,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>
@@ -93,13 +93,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>
@@ -111,13 +111,13 @@ function UpComing() {
                         <div className='flex flex-col gap-1'>
                             <Badge variant='outline'>Birthday</Badge>
                             <div className='mx-2'>
-                                <h3 className='flex items-center'>Al Saj Arena, nemom, tvm, kerala</h3>
+                                <h3 className='flex items-center font-heading font-semibold'>Al Saj Arena, nemom, tvm, kerala</h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex gap-2 items-end w-full flex-col '>
+                    <div className='flex gap-2 items-end w-full flex-col font-sans'>
                         <p className='flex items-center'><IconCalendar /> 25th may, 2025</p>
-                        <p className='flex items-center'><IconClock /> 10:00AM - 5:00PM</p>
+                        <p className='flex items-center font-mono'><IconClock /> 10:00AM - 5:00PM</p>
 
                     </div>
                 </div>

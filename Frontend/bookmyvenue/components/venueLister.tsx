@@ -9,7 +9,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { IconStar, IconStarFilled } from '@tabler/icons-react';
+import { IconStar, IconStarFilled, IconCash, IconTrendingUp, IconCalendar } from '@tabler/icons-react';
+
+import Link from 'next/link';
 
 interface VenueListerProps {
     list: {
@@ -18,6 +20,9 @@ interface VenueListerProps {
         name: string;
         rating: number;
         cats: string[];
+        bookingsThisMonth?: number;
+        revenueThisMonth?: number;
+        revenueThisYear?: number;
     }[];
     isfiltered?: boolean;
     isOwnerView?: boolean;
@@ -55,23 +60,38 @@ function VenueLister({ list, isfiltered, isOwnerView }: VenueListerProps) {
                                 </div>
 
                                 {isOwnerView && (
-                                    <div>
-                                        <div className='flex flex-col gap-1 my-3 border border-border rounded-lg px-2 py-1 mx-auto'>
-                                            <div className='flex items-center justify-between'>
-                                                <h3 className='font-sans text-sm'>This Month Earnings</h3>
-                                                <p className='font-mono text-sm'>₹100</p>
+                                    <div className="mt-4 flex flex-col gap-3">
+                                        <div className='bg-secondary/40 dark:bg-neutral-900/40 border border-border/60 rounded-xl p-3 flex flex-col gap-2.5 text-xs'>
+                                            <div className='flex items-center justify-between border-b border-border/40 pb-2'>
+                                                <span className='text-muted-foreground flex items-center gap-1.5 font-sans font-medium'>
+                                                    <IconCash size={14} className="text-primary" /> Month Earnings
+                                                </span>
+                                                <span className='font-mono font-bold text-foreground text-sm'>
+                                                    ₹{(item.revenueThisMonth ?? 100).toLocaleString('en-IN')}
+                                                </span>
+                                            </div>
+                                            <div className='flex items-center justify-between border-b border-border/40 pb-2'>
+                                                <span className='text-muted-foreground flex items-center gap-1.5 font-sans font-medium'>
+                                                    <IconTrendingUp size={14} className="text-green-500" /> Year Earnings
+                                                </span>
+                                                <span className='font-mono font-bold text-foreground text-sm'>
+                                                    ₹{(item.revenueThisYear ?? 10000).toLocaleString('en-IN')}
+                                                </span>
                                             </div>
                                             <div className='flex items-center justify-between'>
-                                                <h3 className='font-sans text-sm'>This Year Earnings</h3>
-                                                <p className='font-mono text-sm'>₹10,000</p>
+                                                <span className='text-muted-foreground flex items-center gap-1.5 font-sans font-medium'>
+                                                    <IconCalendar size={14} className="text-primary" /> Month Bookings
+                                                </span>
+                                                <span className='font-mono font-extrabold text-primary text-sm'>
+                                                    {item.bookingsThisMonth ?? 10}
+                                                </span>
                                             </div>
-                                            <div className='flex items-center justify-between'>
-                                                <h3 className='font-sans text-sm'>This Month Bookings</h3>
-                                                <p className='font-mono text-sm text-primary'>10</p>
-                                            </div>
-
                                         </div>
-                                        <Button className='w-full'>View Logs</Button>
+                                        <Link href={`/Bookings/${item.id}`} className="w-full block">
+                                            <Button className='w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/95 transition-all font-semibold py-4 h-10'>
+                                                View Logs
+                                            </Button>
+                                        </Link>
                                     </div>
                                 )}
 
