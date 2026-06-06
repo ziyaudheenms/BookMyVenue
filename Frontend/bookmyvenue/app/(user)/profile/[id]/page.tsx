@@ -16,7 +16,7 @@ function page() {
             </div>
             </div>
         </div>
-        <div className='w-full border border-border rounded-xl p-2'>
+        <div className='w-full border border-border rounded-xl p-2 dark:bg-secondary/30'>
                 <h1 className='font-heading text-2xl font-bold'>John Doe</h1>
 
             <div className='my-5'>
@@ -26,7 +26,7 @@ function page() {
 
             
         </div>
-        <div className='w-full border border-border rounded-xl p-2'>
+        <div className='w-full border border-border rounded-xl p-2 dark:bg-secondary/30'>
                 <h1 className='font-heading text-2xl font-bold flex items-center gap-2'><IconHistory />History & Booking Management</h1>
 
             <div className='flex flex-col gap-2 my-5 h-96 overflow-y-scroll no-scrollbar'>

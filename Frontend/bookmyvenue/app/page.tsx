@@ -9,6 +9,7 @@ import { IconBuilding, IconCakeRoll, IconHeart, IconHeartFilled } from "@tabler/
 export default function Page() {
   return (
     <div className="">
+      <Navbar type="user"/>
       <div className="flex  min-w-0 flex-col gap-4 text-sm leading-loose">
         <Filters />
         <div className=" xl:px-0 w-full">

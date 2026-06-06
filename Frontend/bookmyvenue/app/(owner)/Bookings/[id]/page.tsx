@@ -1,5 +1,6 @@
 'use client'
 import { CalenderView } from '@/components/calenderView'
+import { Offline } from '@/components/offline'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -37,83 +38,95 @@ function page() {
 
 
           />
-          <Button variant='outline' className='bg-primary text-background my-2 w-full'> <IconPlus /> Add Offline Events</Button>
+          <Offline />
         </div>
         <div className='w-full md:w-1/2 lg:w-2/3 mx-auto'>
-          <div className='w-full flex justify-between items-center'>
+          <div className='w-full flex justify-between items-center font-heading font-bold'>
             BOOKING DETAILS
-            <Button variant='outline' className='bg-primary text-background'> <IconPlus /> Add Offline Events</Button>
+            
           </div>
 
           <p className='text-muted-foreground font-sans text-sm italic mb-3'>Here you can view the details of your booking and manage it.</p>
           <div className=' h-96 no-scrollbar overflow-y-auto'>
-          <div className='my-5 '>
-            <h3 className='flex items-center gap-2 font-heading font-xl'><IconUser /> Guest Details</h3>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Name</h4>
-                <h3>John Doe</h3>
+            <div className='my-5 '>
+              <h3 className='flex items-center gap-2 font-heading font-xl font-bold'><IconUser /> Guest Details</h3>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Name</h4>
+                  <h3 className='font-sans'>John Doe</h3>
+                </div>
+              </div>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Email</h4>
+                  <h3 className='font-sans'>john.doe@example.com</h3>
+                </div>
+              </div>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Contact Number</h4>
+                  <h3 className='font-sans'>123-456-7890</h3>
+                </div>
+              </div>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Booked Time</h4>
+                  <h3 className='font-sans'>10:00 AM to 12:00 PM</h3>
+                </div>
+              </div>
+              <div className='w-full  my-3'>
+                <div className='w-full  px-2 py-1 '>
+                  <h4 className='font-sans'>Booking Notes</h4>
+                  <h3 className='font-sans text-muted-foreground italic'>Need catering services and some live action performances</h3>
+                </div>
               </div>
             </div>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>email</h4>
-                <h3>john.doe@example.com</h3>
-              </div>
-            </div>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Contact Number</h4>
-                <h3>123-456-7890</h3>
-              </div>
-            </div>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Booked Time</h4>
-                <h3>10:00 AM to 12:00 PM</h3>
-              </div>
-            </div>
-            <div className='w-full  my-3'>
-              <div className='w-full  px-2 py-1 '>
-                <h4>Booking Notes</h4>
-                <h3>Need catering services and some live action performances</h3>
-              </div>
-            </div>
-          </div>
 
-          <div className='my-5 border border-border rounded-lg px-2 py-2'>
-            <h3 className='flex items-center gap-2 font-heading font-xl'><IconCash /> Payment Details</h3>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Hourly Rent</h4>
-                <h3>$50</h3>
+            <div className='my-5 border border-border rounded-lg px-2 py-2 bg-muted dark:bg-secondary/30'>
+              <h3 className='flex items-center gap-2 font-heading font-xl'><IconCash /> Payment Details</h3>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Hourly Rent</h4>
+                  <h3 className='font-mono'>$50</h3>
+                </div>
               </div>
-            </div>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Platform Fee</h4>
-                <h3>$10</h3>
+              <div className='w-full  my-3'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Platform Fee</h4>
+                  <h3 className='font-mono'>$10</h3>
+                </div>
               </div>
-            </div>
-            <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Rent for X hours</h4>
-                <h3>12000</h3>
+              <div className='w-full  my-3 '>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-sans'>Rent for X hours</h4>
+                  <h3 className='font-mono'>12000</h3>
+                </div>
               </div>
-            </div>
-             <div className='w-full  my-3'>
-              <div className='w-full flex items-center justify-between px-2 py-1 '>
-                <h4>Total Amount</h4>
-                <h3>12000</h3>
+              <div className='w-full  my-3 border-t border-primary'>
+                <div className='w-full flex items-center justify-between px-2 py-1 '>
+                  <h4 className='font-heading font-bold text-md'>Total Amount</h4>
+                  <h3 className='font-mono text-primary font-bold'>12000</h3>
+                </div>
               </div>
+
             </div>
-            
+
+            <div className='my-5 w-full h-96 flex justify-center items-center'>
+              <div className='items-center'>
+                <h3 className='font-heading font-bold text-primary text-center text-xl '>No Bookings Yet</h3>
+                <p className='font-sans text-muted-foreground italic'>Bookings Havent been booked so far for today</p>
+                <Offline />
+              </div>
+
+            </div>
+
+
+
           </div>
-</div>
 
 
         </div>
-        
+
 
       </div>
 

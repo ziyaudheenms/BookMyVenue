@@ -416,6 +416,17 @@ function CreateVenuePage() {
                     onChange={e => setCountry(e.target.value)}
                   />
                 </div>
+                <div className="flex flex-col gap-1.5 w-full">
+                  <Label htmlFor="districtName" className="font-semibold text-xs text-foreground uppercase tracking-wide">
+                    Google Map Location
+                  </Label>
+                  <Input
+                    id="districtName"
+                    placeholder="Please provide maps share link"
+                    value={districtName}
+                    onChange={e => setDistrictName(e.target.value)}
+                  />
+                </div>
               </CardContent>
             </Card>
 

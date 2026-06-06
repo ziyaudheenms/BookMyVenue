@@ -40,7 +40,7 @@ function VenueLister({ list, isfiltered, isOwnerView }: VenueListerProps) {
                                 <img
                                     src={item.image}
                                     alt="Event cover"
-                                    className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40 h-80"
+                                    className="relative z-20 aspect-video w-full object-cover  h-80"
                                 />
 
                             </Card>

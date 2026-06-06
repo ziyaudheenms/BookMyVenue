@@ -4,6 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/ui/navbar";
 
 const robotoHeading = Roboto({subsets:['latin'],variable:'--font-heading'});
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     >
       <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
+          
           {children}
           <Footer />
         </ThemeProvider>

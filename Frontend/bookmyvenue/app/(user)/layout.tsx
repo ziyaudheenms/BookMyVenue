@@ -27,7 +27,7 @@ export default function RootLayout({
     >
       <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
-           <Navbar type="user"/> 
+            <Navbar type="user"/>       
           {children}
        
         </ThemeProvider>
