@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { LocationFinder } from '../locationFinder';
 import { VenueSearch } from '../venueSearch';
 import { Button } from './button';
-
+import { Show, SignInButton, SignUpButton, UserButton  } from '@clerk/nextjs';
 import Link from 'next/link';
 
 interface Props {
@@ -41,9 +41,15 @@ function Navbar({ type }: Props) {
           )
         }
         <div>
-          <div className='h-8 w-8 bg-primary rounded-full'>
+          <Show when="signed-out" >
+                <Button variant={'destructive'} className='mx-2'>Sign In</Button>
 
-          </div>
+                <Button className='mx-2'>Sign Up</Button>
+            
+            </Show>
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { IconUserCancel, IconUserDown, IconUsers, IconSearch, IconUser, IconBuilding } from '@tabler/icons-react'
+import { IconUserCancel, IconUserDown, IconUsers, IconSearch, IconUser, IconBuilding, IconTicket } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import {
     InputGroup,
@@ -24,17 +24,20 @@ function page() {
                         <IconUser />
                     </InputGroupAddon>
                 </InputGroup>
-                <div className='flex gap-2 mx-auto cursor-pointer'>
-                    <Badge><IconUser />All</Badge>
-                    <Badge><IconUsers />Users</Badge>
-                    <Badge><IconBuilding />Owners</Badge>
-                </div>
                 </div>
             </div>
             <div>
                 <div className='flex items-center justify-between'>
                     <h3 className='flex items-center gap-2 font-medium text-xl'><IconUsers />All The Users Signed Through BMV</h3>
                     <Badge>144 users</Badge>
+                </div>
+                <div className='flex items-center justify-between my-5'>
+                    <div className='flex gap-2  '>
+                        <Badge variant='outline' className='cursor-pointer'><IconUser />All</Badge>
+                        <Badge variant='outline' className='cursor-pointer'><IconUsers />Users</Badge>
+                        <Badge variant='outline' className='cursor-pointer'><IconBuilding />Owners</Badge>
+                    </div>
+                    
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 my-5'>
                     <div className='px-2 py-3 rounded-xl border border-border dark:bg-secondary/30 flex flex-col gap-4'>
@@ -132,7 +135,7 @@ function page() {
                         </div>
                         <div className='flex items-center gap-2 mx-auto'>
                             <Button ><IconUserCancel /> Suspend User</Button>
-                            <Button><IconUserDown /> Delete User</Button>
+                            <Button className='bg-destructive'><IconUserDown /> Delete User</Button>
                         </div>
                     </div>
                 </div>

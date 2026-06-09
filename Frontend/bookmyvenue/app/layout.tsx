@@ -5,10 +5,13 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/ui/navbar";
+import { Toaster } from "@/components/ui/sonner"
 
-const robotoHeading = Roboto({subsets:['latin'],variable:'--font-heading'});
+import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'})
+const robotoHeading = Roboto({ subsets: ['latin'], variable: '--font-heading' });
+
+const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -28,9 +31,13 @@ export default function RootLayout({
     >
       <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
-          
-          {children}
-          <Footer />
+          <ClerkProvider>
+
+            {children}
+            <Toaster richColors />
+            <Footer />
+          </ClerkProvider>
+
         </ThemeProvider>
       </body>
     </html>

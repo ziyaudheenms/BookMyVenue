@@ -21,7 +21,8 @@ import {
   IconPlus,
   IconAlertCircle,
   IconHistory,
-  IconUser
+  IconUser,
+  IconSquareRoundedCheckFilled
 } from '@tabler/icons-react'
 import { VenueLister } from '@/components/venueLister'
 import { UpComing } from '@/components/upComing'
@@ -491,7 +492,7 @@ function Page() {
                     </div>
                     <div className='flex gap-2 justify-end w-full'>
                         <Reject />
-                        <Button className='bg-green-500'><IconCheck />Approve</Button>
+                        <Button className='bg-green-500'><IconSquareRoundedCheckFilled />Approve Venue</Button>
                     </div>
                 </div>
                  <div className='w-full border dark:bg-secondary/30 border-border flex-col md:flex-row gap-4  rounded-xl flex md:items-center md:justify-between py-2 px-2'>

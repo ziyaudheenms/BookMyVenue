@@ -10,6 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+
 import { IconCash, IconCross, IconLocationCheck, IconWriting, IconX } from '@tabler/icons-react'
 import { Input } from './ui/input'
 import { PaymentCancellation } from './PaymentCancellation'
@@ -18,7 +19,7 @@ function Reject() {
     <Dialog>
             <form>
                 <DialogTrigger asChild>
-                    <Button className='bg-primary'><IconX />Reject</Button>
+                    <Button className='bg-primary'><IconX />Reject the Venue</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-sm">
                     <DialogTitle>
