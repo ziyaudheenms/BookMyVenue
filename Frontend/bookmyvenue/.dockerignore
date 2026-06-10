@@ -1,3 +1,5 @@
+
+
 # Next.js build output and cache
 .next/
 
@@ -8,7 +10,7 @@ npm-debug.log*
 # Source Control
 .git
 .github
-.gitignore
+.gitignore  
 
 # Dependencies (Let Docker install these inside the container)
 node_modules/

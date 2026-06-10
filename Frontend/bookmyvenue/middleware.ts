@@ -8,7 +8,7 @@ import { clerkMiddleware , createRouteMatcher } from '@clerk/nextjs/server';
 //   '/venue(.*)',
 // ]);
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)' , '/details(.*)' , '/Bookings(.*)' , '/manager(.*)' , '/preview(.*)' , '/create(.*)' , '/profile(.*)' , '/confirmation(.*)' , 'booking(.*)' , 'allTransactions(.*)' , 'allUsers(.*)' ,'allVenues(.*)' ,'bookmyvenue(.*)'  ]); // Protect all routes under /dashboard and /images
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)' , '/details(.*)' , '/Bookings(.*)' , '/manager(.*)' , '/preview(.*)' , '/create(.*)' , '/profile(.*)' , '/confirmation(.*)' , 'booking(.*)' , 'allTransactions(.*)' , 'allUsers(.*)' ,'allVenues(.*)' ,'bookmyvenue(.*)'  ]); // Protect all routes except those which are public to use by outsiders.
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) await auth.protect()

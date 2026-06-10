@@ -175,7 +175,7 @@ function VenueLister({ list, isfiltered, isOwnerView, isAdminView }: VenueLister
                                 )}
 
                             </div>
-                            <div className='flex items-center gap-2 mx-auto'>
+                            <div className='flex items-center gap-2'>
                                 <Button className='bg-green-500'><IconSquareRoundedCheckFilled />Approve Venue</Button>
                                 <Reject />
                             </div>
