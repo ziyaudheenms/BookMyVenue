@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  bookmyvenue_postgres_db:
     image: postgres:16-alpine
     container_name: bookmyvenue_postgres_db
     restart: always
@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - bookmyvenue_postgres_db
 
 volumes:
   postgres_data:
