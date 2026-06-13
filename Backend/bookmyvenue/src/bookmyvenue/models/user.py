@@ -16,7 +16,7 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(nullable=False , unique=True)
     fullname: Mapped[str] = mapped_column(nullable=False)
-    phone: Mapped[str] = mapped_column(String(10))  #we need phone number which only contains 10 digits
+    phone: Mapped[Optional[str]] = mapped_column(String(10))  #we need phone number which only contains 10 digits
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now() # when a user is created add the server's that respective time in the created_at column
