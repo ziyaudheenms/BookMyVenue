@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import HTTPException
 import structlog
 from sqlalchemy.orm import Session
@@ -36,9 +38,11 @@ class UserService:
         # 3. Formulate full name
         first = clerk_user.first_name or ""
         last = clerk_user.last_name or ""
-        username = clerk_user.username or ""
+        username = clerk_user.username
         fullname = f"{first} {last}".strip() or "Clerk User"
 
+        if not username:
+            username = f"{primary_email.split('@')[0]}_{uuid.uuid4().hex[:4]}"
        
         new_user = userRepository.create_clerk_user(
             db=db,
