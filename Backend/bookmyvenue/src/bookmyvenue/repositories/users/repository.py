@@ -7,7 +7,7 @@ from src.bookmyvenue.models.user import User
 logger = structlog.get_logger()
 class UserRepository:
     def get_user_by_id(self, db:Session, clerk_id:str) -> Optional[User]:
-        return db.query(User).filter_by(id=clerk_id).first()  #filter based search is fast for getting a spevific element
+        return db.query(User).filter_by(clerkUserID=clerk_id).first()  #filter based search is fast for getting a spevific element
 
     def create_clerk_user(self, db:Session, clerk_id:str, email:str, fullname:str, username:str) -> User:
         logger.info("registering the user " , clerk_id=clerk_id, email = email)
