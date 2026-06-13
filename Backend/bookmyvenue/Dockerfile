@@ -43,4 +43,4 @@ USER app
 EXPOSE 8000
 
 # 12. Run directly using the system-installed fastapi production engine
-CMD ["fastapi", "run", "src/bookmyvenue/main.py", "--proxy-headers", "--port", "8000", "--host", "0.0.0.0"]
+CMD ["sh", "-c", "fastapi run src/bookmyvenue/main.py --proxy-headers --port ${PORT:-8000} --host 0.0.0.0"]
