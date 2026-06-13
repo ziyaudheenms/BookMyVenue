@@ -1,8 +1,11 @@
 # Build artifacts
 bin/
 obj/
-Backend/bookmyvenue/.env
+# Ignore frontend environment variables
 Frontend/bookmyvenue/.env
+
+# Ignore backend environment variables
+Backend/bookmyvenue/.env
 # Visual Studio files
 .vs/
 *.user
