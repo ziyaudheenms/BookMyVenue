@@ -13,7 +13,7 @@ class User(Base):
 
     id: Mapped[int] = mapped_column( primary_key=True , index=True , nullable=False , autoincrement=True)
     clerkUserID: Mapped[str] = mapped_column( index=True , nullable=False )
-    username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    username: Mapped[Optional[str]] = mapped_column(String(50), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(nullable=False , unique=True)
     fullname: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[Optional[str]] = mapped_column(String(10))  #we need phone number which only contains 10 digits
