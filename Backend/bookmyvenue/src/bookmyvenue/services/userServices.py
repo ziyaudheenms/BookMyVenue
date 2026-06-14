@@ -55,6 +55,17 @@ class UserService:
 
         return new_user
     
+    def delete_user(self, db: Session, clerk_user: user.ClerkWebhookData):
+        existing_user = userRepository.get_user_by_id(db=db, clerk_id=clerk_user.id)
+        
+        if not existing_user:
+            logger.info("user with the given username or email doent exists" , clerk_id=clerk_user.id)
+            raise HTTPException(status_code=409, detail=f"user with the given ID doesnt exist")
+        
+        return userRepository.detele_user(db, existing_user)
+
+
+    
     def complete_user_onboarding(self, db:Session, current_user_id:str, phone:user.PhoneOnboardingSchema) -> User:
         logger.info("trying to onboard user" , clerk_id = current_user_id)
         updated_user = userRepository.update_user_onboarding(db=db,clerk_id=current_user_id,phone=phone)

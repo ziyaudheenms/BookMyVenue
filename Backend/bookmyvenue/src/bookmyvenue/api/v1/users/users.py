@@ -1,5 +1,5 @@
 import os
-from fastapi import APIRouter, Depends, HTTPException, Request, Header
+from fastapi import APIRouter, Depends, HTTPException, Request, Header, status
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from svix.webhooks import Webhook, WebhookVerificationError
@@ -80,17 +80,25 @@ async def clerk_webhook_handler(
         logger.error(f"Unparseable Clerk event data: {str(e)}")
         raise HTTPException(status_code=422, detail=f"Unparseable Clerk event data: {str(e)}")
 
-    new_user = None
     if event.type == "user.created":
         new_user = userservice.register_user(db=db,clerk_user=event.data)
-    
-    validated_user = UserSchema.model_validate(new_user) #used to look on the given databade object , check wheter it matches with the schema and picks the required user fields and converts into pydantic model instance
+        validated_user = UserSchema.model_validate(new_user) #used to look on the given databade object , check wheter it matches with the schema and picks the required user fields and converts into pydantic model instance
 
-    return UserCreatedResponce(
-        status_code=201,
-        message="new user generated successfully",
-        data=validated_user
-    )
+        return UserCreatedResponce(
+            status_code=201,
+            message="new user generated successfully",
+            data=validated_user
+        )
+    elif event.type == "user.deleted":
+        is_deleted = userservice.delete_user(db=db,clerk_user=event.data)
+        if not is_deleted:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="cant delete the user.")
+
+        return UserUpdatedResponce(status_code=200,message="successfully deleted the user")
+        
+
+    
+    
 
 
 @router.post('/onboarding')

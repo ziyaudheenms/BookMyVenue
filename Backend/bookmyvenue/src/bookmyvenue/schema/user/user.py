@@ -16,6 +16,9 @@ class ClerkWebhookData(BaseModel):
     image_url: Optional[str] = None
     primary_email_address_id: Optional[str] = None
     profile_image_url: Optional[str] = None
+    deleted:Optional[bool] = True
+    object:str = "user"
+
 
 class ClerkWebhookEvent(BaseModel):
     data: ClerkWebhookData

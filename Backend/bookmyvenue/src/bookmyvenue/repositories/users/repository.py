@@ -39,5 +39,14 @@ class UserRepository:
         db.commit()
         db.refresh(current_user)
         return current_user
-
+    
+    def detele_user(self, db:Session, clerk_user:User):
+        logger.info("deleting the user from DB" , clerk_id=clerk_user.clerkUserID)
+        try:
+            db.delete(clerk_user)
+            db.commit()
+            return True
+        except Exception as e:
+            return False
+            
 userRepository = UserRepository()
