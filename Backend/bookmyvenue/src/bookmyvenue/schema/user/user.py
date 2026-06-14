@@ -9,7 +9,7 @@ class ClerkEmailAddress(BaseModel):
 
 class ClerkWebhookData(BaseModel):
     id: str  # This is the Clerk User ID (e.g., user_2F...)
-    email_addresses: List[ClerkEmailAddress]
+    email_addresses: Optional[List[ClerkEmailAddress]] = None
     first_name: Optional[str] = None
     username: Optional[str] = None
     last_name: Optional[str] = None
