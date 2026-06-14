@@ -12,13 +12,14 @@ import { VenueSearch } from '../venueSearch';
 import { Button } from './button';
 import { Show, SignInButton, SignUpButton, UserButton  } from '@clerk/nextjs';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
 interface Props {
   type: string
 }
 
 
 function Navbar({ type }: Props) {
+  const router  = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -44,7 +45,9 @@ function Navbar({ type }: Props) {
           <Show when="signed-out" >
                 <Button variant={'destructive'} className='mx-2'>Sign In</Button>
 
-                <Button className='mx-2'>Sign Up</Button>
+                <Button className='mx-2' onClick={() => {
+                  router.push('/sign-in')
+                }}>Sign Up</Button>
             
             </Show>
             <Show when="signed-in">

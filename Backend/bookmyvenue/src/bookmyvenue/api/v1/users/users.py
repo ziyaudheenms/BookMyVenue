@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from svix.webhooks import Webhook, WebhookVerificationError
 import structlog
-from src.bookmyvenue.schema.responce.responces import UserCreatedResponce
-from src.bookmyvenue.schema.user.user import ClerkWebhookEvent
-from src.bookmyvenue.api.deps import get_the_db_Session
+from src.bookmyvenue.schema.responce.responces import UserCreatedResponce, UserUpdatedResponce
+from src.bookmyvenue.schema.user.user import ClerkWebhookEvent, PhoneOnboardingSchema, UserSchema
+from src.bookmyvenue.api.deps import  get_the_current_user, get_the_db_Session
 from src.bookmyvenue.services.userServices import userservice
 
 
@@ -26,13 +26,23 @@ def home():
             clerk_id=1,
             email="test@gmail"
         )
-    
-    return {
-        "hello" : "world"
-    }
+    return UserUpdatedResponce(
+        status_code=201,
+        message="new user generated successfully",
+    )
     
 
-
+@router.get("/test")
+def test():
+    logger.info(
+            "Attempting to sync Clerk user to database", 
+            clerk_id=1,
+            email="test@gmail"
+        )
+    return UserUpdatedResponce(
+        status_code=201,
+        message="new user generated successfully",
+    )
 
 @router.post('/webhook/create-user')  #this route is used to register the user with the weebhook comming from clerk
 async def clerk_webhook_handler(
@@ -74,12 +84,27 @@ async def clerk_webhook_handler(
     if event.type == "user.created":
         new_user = userservice.register_user(db=db,clerk_user=event.data)
     
+    validated_user = UserSchema.model_validate(new_user) #used to look on the given databade object , check wheter it matches with the schema and picks the required user fields and converts into pydantic model instance
+
     return UserCreatedResponce(
         status_code=201,
         message="new user generated successfully",
-        data=new_user
+        data=validated_user
     )
 
+
+@router.post('/onboarding')
+def complete_onboarding(
+    phone:PhoneOnboardingSchema, 
+    db:Session = Depends(get_the_db_Session),
+    current_user_id:str = Depends(get_the_current_user)
+):
+    
+    userservice.complete_user_onboarding(db=db,phone=phone,current_user_id=current_user_id)
+    logger.info(f"onboarded the user successfully" , clerk_id=current_user_id)
+    return UserUpdatedResponce(status_code=200,message="successfully updated the profile")
+
+    
    
 
      

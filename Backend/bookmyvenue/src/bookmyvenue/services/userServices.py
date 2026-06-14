@@ -11,6 +11,7 @@ from src.bookmyvenue.schema.user import user
 
 
 logger = structlog.get_logger()
+
 class UserService:
     def register_user(self, db: Session, clerk_user: user.ClerkWebhookData) -> User:
 
@@ -53,5 +54,11 @@ class UserService:
         )
 
         return new_user
+    
+    def complete_user_onboarding(self, db:Session, current_user_id:str, phone:user.PhoneOnboardingSchema) -> User:
+        logger.info("trying to onboard user" , clerk_id = current_user_id)
+        updated_user = userRepository.update_user_onboarding(db=db,clerk_id=current_user_id,phone=phone)
+        return updated_user
+    
 
 userservice = UserService()

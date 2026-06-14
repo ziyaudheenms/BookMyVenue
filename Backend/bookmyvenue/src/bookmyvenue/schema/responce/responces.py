@@ -1,15 +1,28 @@
-from email import message
 
-from pydantic import BaseModel
-from typing import Generic, TypeVar, Optional, Any
+from pydantic import BaseModel, ConfigDict
 
-T = TypeVar("T")
 
-class UserCreatedResponce(BaseModel, Generic[T]):
-    status_code: int
-    message: str
-    data: Optional[T] = None
+from src.bookmyvenue.schema.user.user import UserSchema
 
-class HealthStatusResponce(BaseModel):
-    status_code: int
+class BaseResponceClass(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    status_code:int
     message:str
+
+class UserCreatedResponce(BaseResponceClass):
+    model_config = ConfigDict(from_attributes=True)
+    data: UserSchema
+
+class UserUpdatedResponce(BaseResponceClass):
+    responce_type:str = "ResourceUpdated"
+
+class HealthStatusResponce(BaseResponceClass):
+    status_code:int
+    message:str
+
+class UserNotFoundResponce(BaseResponceClass):
+    responce_type:str = "NotFound"
+
+class UserNotAuthenticatedResponce(BaseResponceClass):
+    responce_type:str = "Unauthorized"
