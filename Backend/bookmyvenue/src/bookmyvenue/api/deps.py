@@ -1,17 +1,20 @@
 import os
+import structlog
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Request, status
+from sqlalchemy.orm import Session
 from clerk_backend_api import Clerk
 from clerk_backend_api.security import authenticate_request
 from clerk_backend_api.security.types import AuthenticateRequestOptions
 
-from src.bookmyvenue.schema.responce.responces import UserNotAuthenticatedResponce
-from src.bookmyvenue.core.database import session
-from src.bookmyvenue.repositories.users.repository import userRepository
 
+from src.bookmyvenue.core.database import session
+from src.bookmyvenue.models.admin import Admin
+from src.bookmyvenue.repositories.admin.repository import adminRepository
 load_dotenv()
 
 clerk_SDK = Clerk(bearer_auth=os.getenv("CLERK_API_KEY"))  
+logger = structlog.get_logger()
 
 def get_the_db_Session():
     db = session()  #generating the new sectio
@@ -23,7 +26,7 @@ def get_the_db_Session():
 
 
 # this function is used to check the incoming request with siginied in or not
-def get_the_current_user(request: Request) :
+def get_the_current_user(request: Request):
 
     request_state = clerk_SDK.authenticate_request(
         request,
@@ -39,3 +42,15 @@ def get_the_current_user(request: Request) :
         user_id = request_payload['sub']  # user ID
         return user_id
 
+
+# Role based checking of the Admin
+def admin_only_route(request: Request,db:Session = Depends(get_the_db_Session)):
+    user_id = get_the_current_user(request=request)  #passing the request to the function
+    admin_user = adminRepository.get_the_admin_by_user(db,user_id)
+    
+    if not admin_user:
+        logger.error("Forbidden request, only allowed for the admin to access" ,clerk_id=user_id)
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Forbidden, only admin can access this endpoint")
+    
+    return admin_user
+    

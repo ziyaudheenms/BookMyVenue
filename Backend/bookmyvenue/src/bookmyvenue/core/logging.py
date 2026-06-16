@@ -1,6 +1,6 @@
 import logging
 import sys
-import os
+# import os
 import structlog
 from src.bookmyvenue.core.config import settings
 

@@ -42,9 +42,12 @@ function page() {
                 }
             })
             .catch((err) => {
-                    console.log(err)
-                    if (err.response && err.response.status_code === 404) {
+                    console.log(err.response.data)  //contains the details of the error
+                    if (err.response && err.response.status === 404) {
                       toast.info(err.response.message)
+                    }
+                    if (err.response && err.response.status === 403) {
+                    //   toast.info(err.response.data)
                     }
                   })
             .finally(() => {

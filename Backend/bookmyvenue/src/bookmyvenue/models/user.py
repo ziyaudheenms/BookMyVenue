@@ -32,5 +32,10 @@ class User(Base):
         cascade="all, delete-orphan"
     )
 
+    admin: Mapped[Optional["Admin"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
     def __repr__(self) -> str:
         return f"<User(username={self.username!r}, email={self.email!r})>"

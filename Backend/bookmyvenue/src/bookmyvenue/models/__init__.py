@@ -7,5 +7,8 @@
 # Import every model class here so they register with the central Base
 from src.bookmyvenue.models.user import User
 from src.bookmyvenue.models.owners import Owner
+from src.bookmyvenue.models.admin import Admin, Category, Amenity
+from src.bookmyvenue.models.common import Venue
+
 # Package them up cleanly
-__all__ = ["User", "Owner"]
+__all__ = ["User", "Owner", "Admin", "Category", "Amenity"]

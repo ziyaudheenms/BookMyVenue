@@ -6,7 +6,7 @@ from svix.webhooks import Webhook, WebhookVerificationError
 import structlog
 from src.bookmyvenue.schema.responce.responces import UserCreatedResponce, UserUpdatedResponce
 from src.bookmyvenue.schema.user.user import ClerkWebhookEvent, PhoneOnboardingSchema, UserSchema
-from src.bookmyvenue.api.deps import  get_the_current_user, get_the_db_Session
+from src.bookmyvenue.api.deps import  admin_only_route, get_the_current_user, get_the_db_Session
 from src.bookmyvenue.services.userServices import userservice
 
 
@@ -105,7 +105,7 @@ async def clerk_webhook_handler(
 def complete_onboarding(
     phone:PhoneOnboardingSchema, 
     db:Session = Depends(get_the_db_Session),
-    current_user_id:str = Depends(get_the_current_user)
+    current_user_id:str = Depends(admin_only_route)
 ):
     
     userservice.complete_user_onboarding(db=db,phone=phone,current_user_id=current_user_id)
