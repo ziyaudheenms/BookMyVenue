@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from sqlalchemy import DateTime, ForeignKey, String, Text, func, Integer
 from sqlalchemy.orm import Mapped , mapped_column , DeclarativeBase, relationship
@@ -26,11 +26,11 @@ class Owner(Base):
         server_default=func.now(), # when a user is created add the server's that respective time in the created_at column
         onupdate=func.now() # when a user updates the exisiting model
     )
-
-
     user: Mapped[Optional["User"]] = relationship(
         back_populates="owner"
     )
+    venues: Mapped[Optional[List['Venue']]] = relationship(back_populates='owner',cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
         return f"<Owner(id={self.id}, organization={self.organization!r})>"
+    

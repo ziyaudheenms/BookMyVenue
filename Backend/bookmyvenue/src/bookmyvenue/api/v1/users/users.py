@@ -44,6 +44,7 @@ def test():
         message="new user generated successfully",
     )
 
+
 @router.post('/webhook/create-user')  #this route is used to register the user with the weebhook comming from clerk
 async def clerk_webhook_handler(
     request: Request,
@@ -97,10 +98,6 @@ async def clerk_webhook_handler(
         return UserUpdatedResponce(status_code=200,message="successfully deleted the user")
         
 
-    
-    
-
-
 @router.post('/onboarding')
 def complete_onboarding(
     phone:PhoneOnboardingSchema, 
@@ -111,8 +108,4 @@ def complete_onboarding(
     userservice.complete_user_onboarding(db=db,phone=phone,current_user_id=current_user_id)
     logger.info(f"onboarded the user successfully" , clerk_id=current_user_id)
     return UserUpdatedResponce(status_code=200,message="successfully updated the profile")
-
-    
-   
-
      

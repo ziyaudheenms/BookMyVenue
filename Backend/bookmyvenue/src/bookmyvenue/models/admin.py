@@ -19,15 +19,16 @@ class Admin(Base):
 class Category(Base):
     __tablename__ = "categories"
     id: Mapped[int] = mapped_column( primary_key=True , index=True , nullable=False , autoincrement=True)
-    name:Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
-    image:Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    icon_name:Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    name:Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
 
     venues:Mapped[List["Venue"]] = relationship(secondary="venue_category_table",back_populates="categories")
 
 class Amenity(Base):
     __tablename__ = "amenities"
     id: Mapped[int] = mapped_column( primary_key=True , index=True , nullable=False , autoincrement=True)
-    name:Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
-    image:Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    icon_name:Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
+    name:Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    
 
     venues:Mapped[List["Venue"]] = relationship(secondary="venue_amenity_table",back_populates="amenities")

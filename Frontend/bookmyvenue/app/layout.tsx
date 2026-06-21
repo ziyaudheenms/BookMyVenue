@@ -8,6 +8,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { Toaster } from "@/components/ui/sonner"
 
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { ReduxProvider } from "@/lib/redux/provider";
 
 const robotoHeading = Roboto({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -32,8 +33,9 @@ export default function RootLayout({
       <body className="min-h-svh overflow-x-scroll no-scrollbar">
         <ThemeProvider>
           <ClerkProvider>
-
+            <ReduxProvider>
             {children}
+            </ReduxProvider>
             <Toaster richColors />
             <Footer />
           </ClerkProvider>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -27,7 +27,8 @@ import {
   IconCheck,
   IconHelpCircle
 } from '@tabler/icons-react'
-
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { getAllCategories, getAllAmenities } from '@/features/venueCreateFeatureSlice'
 // --- Types & Constants ---
 
 interface AmenityOption {
@@ -70,6 +71,10 @@ const MOCK_GALLERY_IMAGES = [
 ];
 
 function CreateVenuePage() {
+
+  const { amenities, categories, initialLoading } = useAppSelector((state) => state.veneueCreation)
+  const dispatch = useAppDispatch()
+
   // Form Field States
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
@@ -160,6 +165,35 @@ function CreateVenuePage() {
       }, 1000);
     }, 800);
   };
+
+  const getTheCategories = async (requestUrl: string) => {
+    dispatch(getAllCategories({
+      requestUrl: requestUrl,
+    }))
+  }
+  const getTheAmenities = async (requestUrl: string) => {
+    dispatch(getAllAmenities
+      (
+        {
+        requestUrl: requestUrl,
+        }
+      )
+    )
+  }
+
+  useEffect(() => {
+    getTheCategories(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/categories`)
+    getTheAmenities(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/amenities`)
+  }, [])
+
+
+  if (initialLoading) {
+    return (
+      <div>
+        Cooking the Venue Creation Form
+      </div>
+    )
+  }
 
   if (submitStatus === 'success') {
     return (

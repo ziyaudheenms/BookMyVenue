@@ -2,6 +2,7 @@
 import React from 'react'
 import { IconCake , IconBuildingSkyscraper ,IconBuildingBank , IconBuildingArch , IconCoffee, IconBeach , IconArmchair2  , IconBuilding, IconBriefcase  } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+// import * as Icons from "@tabler/icons-react"
 function Filters() {
     const router = useRouter();
   return (

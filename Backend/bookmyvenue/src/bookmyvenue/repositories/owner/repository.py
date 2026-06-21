@@ -10,6 +10,7 @@ from src.bookmyvenue.models.user import User
 from src.bookmyvenue.models.owners import Owner
 
 logger = structlog.get_logger()
+
 class OwnerRepository:
     def get_owner_record_by_ID(self, db:Session, current_user_id:str) -> Optional[Owner]:
        return db.query(Owner).join(User).filter(User.clerkUserID == current_user_id).first()

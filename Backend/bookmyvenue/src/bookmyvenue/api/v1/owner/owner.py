@@ -42,7 +42,3 @@ def complete_onboarding(
     logger.info(f"onboarded the owner successfully" , clerk_id=current_user_id)
     return UserUpdatedResponce(status_code=200,message="successfully updated the profile")
 
-    
-   
-
-     
