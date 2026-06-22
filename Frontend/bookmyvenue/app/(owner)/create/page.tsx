@@ -25,10 +25,12 @@ import {
   IconTrash,
   IconUpload,
   IconCheck,
-  IconHelpCircle
+  IconHelpCircle,
+  IconLoader
 } from '@tabler/icons-react'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { getAllCategories, getAllAmenities } from '@/features/venueCreateFeatureSlice'
+import { Spinner } from '@/components/ui/spinner'
 // --- Types & Constants ---
 
 interface AmenityOption {
@@ -181,16 +183,23 @@ function CreateVenuePage() {
     )
   }
 
-  useEffect(() => {
-    getTheCategories(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/categories`)
-    getTheAmenities(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/amenities`)
-  }, [])
+  // useEffect(() => {
+  //   getTheCategories(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/categories`)
+  //   getTheAmenities(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/amenities`)
+  // }, [])
 
 
   if (initialLoading) {
     return (
       <div>
-        Cooking the Venue Creation Form
+        <div className='w-full h-96 flex items-center justify-center'>
+          <div className='bg-red-500'/>
+          <div className='flex flex-col items-center justify-center gap-2'>
+            <h3 className='font-bold text-3xl font-heading'>Preparing the venue form</h3>
+            <p className='font-normal text-muted-foreground'>Adding the meta data like categories and amenities</p>
+            <Spinner className='size-6'/>
+            </div>
+        </div>
       </div>
     )
   }
