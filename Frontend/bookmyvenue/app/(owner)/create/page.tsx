@@ -29,8 +29,11 @@ import {
   IconLoader
 } from '@tabler/icons-react'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
-import { getAllCategories, getAllAmenities } from '@/features/venueCreateFeatureSlice'
+import { getAllCategories, getAllAmenities, discardAllLocationDetails } from '@/features/venueCreateFeatureSlice'
 import { Spinner } from '@/components/ui/spinner'
+import DynamicTablerIcon from '@/components/DynamicTabularIcons'
+import { LocationFinder } from '@/components/locationFinder'
+import LocationSuggest from '@/components/LocationSuggest'
 // --- Types & Constants ---
 
 interface AmenityOption {
@@ -44,25 +47,6 @@ interface CategoryOption {
   name: string;
 }
 
-const AMENITIES_OPTIONS: AmenityOption[] = [
-  { id: 'kitchen', name: 'Kitchen Facility', icon: <IconToolsKitchen2 size={22} /> },
-  { id: 'parking', name: 'Parking Space', icon: <IconParking size={22} /> },
-  { id: 'playarea', name: 'Play Area', icon: <IconPlayBasketball size={22} /> },
-  { id: 'ac', name: 'Air Conditioning', icon: <IconAirConditioning size={22} /> },
-  { id: 'wifi', name: 'Internet / Wifi', icon: <IconWifi size={22} /> },
-  { id: 'sound', name: 'Sound System', icon: <IconVolume size={22} /> },
-  { id: 'power', name: 'Power Backup', icon: <IconBattery size={22} /> },
-  { id: 'stage', name: 'Stage Setup', icon: <IconMovie size={22} /> },
-];
-
-const CATEGORY_OPTIONS: CategoryOption[] = [
-  { id: 'wedding', name: 'Wedding' },
-  { id: 'birthday', name: 'Birthday' },
-  { id: 'conference', name: 'Conference' },
-  { id: 'meetup', name: 'Meetup' },
-  { id: 'workshop', name: 'Workshop' },
-  { id: 'party', name: 'Party' },
-];
 
 // Pre-populated quick mock images for testing
 const MOCK_GALLERY_IMAGES = [
@@ -84,6 +68,7 @@ function CreateVenuePage() {
   const [districtName, setDistrictName] = useState('');
   const [stateName, setStateName] = useState('');
   const [country, setCountry] = useState('India');
+  const [gLocation, setGlocation] = useState('');
   const [description, setDescription] = useState('');
   const [hourlyRent, setHourlyRent] = useState('');
   const [maxCapacity, setMaxCapacity] = useState('');
@@ -98,7 +83,6 @@ function CreateVenuePage() {
 
   // Page Lifecycle States
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success'>('idle');
-  const [loadingStage, setLoadingStage] = useState('');
 
   // Cancellation Policy States
   const [allowCancellation, setAllowCancellation] = useState(false);
@@ -127,46 +111,24 @@ function CreateVenuePage() {
       setCoverImage(simulatedUrl);
     }
   };
+  const triggerGalleryAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const simulatedUrl = URL.createObjectURL(file);
+      setGalleryImages(prev => [...prev, simulatedUrl]);;
+    }
+  };
 
   const setQuickCover = (url: string) => {
     setCoverImage(url);
-  };
-
-  // Gallery multi-photo helper
-  const triggerGalleryAdd = () => {
-    // Generate a random mockup image from unsplash/mock list to simulate upload
-    const randomIdx = Math.floor(Math.random() * MOCK_GALLERY_IMAGES.length);
-    const selectedUrl = MOCK_GALLERY_IMAGES[randomIdx];
-    // Add multiple copies if requested, simulating "as long as photos"
-    setGalleryImages(prev => [...prev, selectedUrl]);
-  };
+  }
 
   const removeGalleryPhoto = (index: number) => {
     setGalleryImages(prev => prev.filter((_, idx) => idx !== index));
   };
 
   // Form submission simulation
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !location || !cityName || !hourlyRent || !maxCapacity) {
-      alert("Please fill in all required fields.");
-      return;
-    }
 
-    setSubmitStatus('loading');
-
-    // Simulate pipeline validation/upload stages
-    setLoadingStage('Analyzing metadata parameters...');
-    setTimeout(() => {
-      setLoadingStage('Compressing cover image & gallery streams...');
-      setTimeout(() => {
-        setLoadingStage('Routing payload to administrator review queue...');
-        setTimeout(() => {
-          setSubmitStatus('success');
-        }, 1200);
-      }, 1000);
-    }, 800);
-  };
 
   const getTheCategories = async (requestUrl: string) => {
     dispatch(getAllCategories({
@@ -202,6 +164,9 @@ function CreateVenuePage() {
         </div>
       </div>
     )
+  }
+  else {
+    
   }
 
   if (submitStatus === 'success') {
@@ -321,24 +286,14 @@ function CreateVenuePage() {
         </div>
       </div>
 
-      {submitStatus === 'loading' ? (
-        <div className="w-full min-h-[400px] flex flex-col items-center justify-center gap-4 bg-secondary/20 rounded-2xl border border-border py-20">
-          <div className="relative w-16 h-16">
-            <div className="absolute inset-0 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 mt-2 text-center px-4">
-            <h3 className="font-bold text-lg text-foreground">Publishing Venue</h3>
-            <p className="text-sm text-primary font-mono animate-pulse">{loadingStage}</p>
-          </div>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+        <form className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* LEFT COLUMN: Input form details (2 Cols) */}
           <div className="lg:col-span-2 flex flex-col gap-6">
 
             {/* Basic Specifications Card */}
-            <Card className="border-border dark:bg-secondary/30">
+            <Card className="border-border dark:bg-secondary/30 overflow-y-scroll no-scrollbar">
               <CardHeader>
                 <CardTitle className="text-lg font-bold">Basic Information</CardTitle>
                 <CardDescription>Primary identification details and metrics</CardDescription>
@@ -358,18 +313,7 @@ function CreateVenuePage() {
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="venueLoc" className="font-semibold text-xs text-foreground uppercase tracking-wide">
-                      Street Location / Neighborhood *
-                    </Label>
-                    <Input
-                      id="venueLoc"
-                      placeholder="e.g. Kazhakkoottam, Near Bypass Road"
-                      value={location}
-                      onChange={e => setLocation(e.target.value)}
-                      required
-                    />
-                  </div>
+                  <LocationSuggest fieldName='Location/Street Address' type='streetAddress' dummyPlaceholder='vetturoad, kazhakootam'/>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -411,54 +355,17 @@ function CreateVenuePage() {
                 <CardDescription>Specify the region parameters for location routing</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="cityName" className="font-semibold text-xs text-foreground uppercase tracking-wide">
-                    City Name *
-                  </Label>
-                  <Input
-                    id="cityName"
-                    placeholder="Trivandrum"
-                    value={cityName}
-                    onChange={e => setCityName(e.target.value)}
-                    required
-                  />
-                </div>
+                <LocationSuggest fieldName='City Name' type='city' dummyPlaceholder='trivandrum'/>
 
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="districtName" className="font-semibold text-xs text-foreground uppercase tracking-wide">
-                    District Name
-                  </Label>
-                  <Input
-                    id="districtName"
-                    placeholder="Thiruvananthapuram"
-                    value={districtName}
-                    onChange={e => setDistrictName(e.target.value)}
-                  />
-                </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="stateName" className="font-semibold text-xs text-foreground uppercase tracking-wide">
-                    State Name
-                  </Label>
-                  <Input
-                    id="stateName"
-                    placeholder="Kerala"
-                    value={stateName}
-                    onChange={e => setStateName(e.target.value)}
-                  />
-                </div>
+                <LocationSuggest fieldName='District Name' type='district' dummyPlaceholder='thiruvananthapuram'/>
 
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="country" className="font-semibold text-xs text-foreground uppercase tracking-wide">
-                    Country
-                  </Label>
-                  <Input
-                    id="country"
-                    placeholder="India"
-                    value={country}
-                    onChange={e => setCountry(e.target.value)}
-                  />
-                </div>
+
+                                <LocationSuggest fieldName='State Name' type='state' dummyPlaceholder='kerala'/>
+
+
+                                <LocationSuggest fieldName='Country' type='country' dummyPlaceholder='India'/>
+
                 <div className="flex flex-col gap-1.5 w-full">
                   <Label htmlFor="districtName" className="font-semibold text-xs text-foreground uppercase tracking-wide">
                     Google Map Location
@@ -467,7 +374,7 @@ function CreateVenuePage() {
                     id="districtName"
                     placeholder="Please provide maps share link"
                     value={districtName}
-                    onChange={e => setDistrictName(e.target.value)}
+                    onChange={e => setGlocation(e.target.value)}
                   />
                 </div>
               </CardContent>
@@ -591,18 +498,18 @@ function CreateVenuePage() {
                     What This Place Offers
                   </h4>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {AMENITIES_OPTIONS.map((opt) => {
-                      const isSelected = selectedAmenities.includes(opt.id);
+                    {amenities.map((amen) => {
+                      const isSelected = selectedAmenities.includes(amen.id);
                       return (
                         <div
-                          key={opt.id}
-                          onClick={() => toggleAmenity(opt.id)}
+                          key={amen.id}
+                          onClick={() => toggleAmenity(amen.id)}
                           className={`p-3 rounded-xl border flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-all duration-300 ${isSelected ? 'border-primary bg-primary/5 text-primary scale-95 shadow-md shadow-primary/5' : 'border-border bg-background dark:bg-neutral-900 text-muted-foreground hover:text-foreground hover:border-muted-foreground/45'}`}
                         >
                           <div className={`p-2 rounded-full transition-colors ${isSelected ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'}`}>
-                            {opt.icon}
+                            <DynamicTablerIcon name={amen.icon_name.trimEnd()} />
                           </div>
-                          <span className="text-xs font-semibold select-none">{opt.name}</span>
+                          <span className="text-xs font-semibold select-none">{amen.name}</span>
                         </div>
                       );
                     })}
@@ -615,15 +522,15 @@ function CreateVenuePage() {
                     Classification Category Tags
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {CATEGORY_OPTIONS.map((opt) => {
-                      const isSelected = selectedCategories.includes(opt.id);
+                    {categories.map((cat) => {
+                      const isSelected = selectedCategories.includes(cat.id);
                       return (
                         <span
-                          key={opt.id}
-                          onClick={() => toggleCategory(opt.id)}
+                          key={cat.id}
+                          onClick={() => toggleCategory(cat.id)}
                           className={`px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer border select-none transition-all duration-300 ${isSelected ? 'bg-primary text-primary-foreground border-primary shadow-md' : 'bg-secondary text-secondary-foreground border-border hover:bg-muted'}`}
                         >
-                          {opt.name}
+                          {cat.name}
                         </span>
                       );
                     })}
@@ -741,12 +648,28 @@ function CreateVenuePage() {
                   ))}
 
                   {/* Add (+) photo interactive slot */}
-                  <div
-                    onClick={triggerGalleryAdd}
-                    className="border-2 border-dashed border-border rounded-lg aspect-square flex flex-col items-center justify-center text-center cursor-pointer hover:border-primary/45 hover:bg-secondary/20 text-muted-foreground hover:text-foreground transition-all select-none"
-                  >
-                    <IconPlus size={24} />
-                    <span className="text-[10px] font-semibold mt-1">Add Photo</span>
+                  <div className="border-2 border-dashed border-border rounded-xl aspect-video w-full h-44 flex flex-col items-center justify-center text-center gap-2 bg-secondary/15 dark:bg-neutral-900/35 p-4 hover:border-primary/45 transition-colors">
+                    <IconUpload size={32} className="text-muted-foreground" />
+                    <div className="flex flex-col gap-0.5 text-xs">
+                      <span className="font-semibold text-foreground">Click to simulated upload</span>
+                      <span className="text-muted-foreground">Supports JPEG, PNG up to 10MB</span>
+                    </div>
+
+                    <input
+                      type="file"
+                      id="coverImageUpload"
+                      accept="image/*"
+                      onChange={triggerGalleryAdd}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() => document.getElementById('coverImageUpload')?.click()}
+                      className="mt-1.5 bg-primary text-primary-foreground font-semibold"
+                    >
+                      Choose File
+                    </Button>
                   </div>
                 </div>
 
@@ -766,22 +689,27 @@ function CreateVenuePage() {
                 >
                   List Venue for Review
                 </Button>
-                <Link href="/dashboard" className="w-full">
+            
                   <Button
                     type="button"
                     variant="outline"
                     className="w-full border-border font-semibold h-10"
+                    onClick={() => {
+                      dispatch(
+                        discardAllLocationDetails()  // clears out all the selected items
+                      )
+                    }}
                   >
                     Discard and Cancel
                   </Button>
-                </Link>
+        
               </CardContent>
             </Card>
 
           </div>
 
         </form>
-      )}
+
 
     </div>
   );
