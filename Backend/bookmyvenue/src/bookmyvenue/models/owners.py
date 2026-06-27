@@ -34,3 +34,13 @@ class Owner(Base):
     def __repr__(self) -> str:
         return f"<Owner(id={self.id}, organization={self.organization!r})>"
     
+
+
+class PriceManager(Base):
+    __tablename__ = "price_manager"
+
+    id: Mapped[int] = mapped_column( primary_key=True ,  nullable=False , autoincrement=True)
+    venue_id: Mapped[int] = mapped_column(ForeignKey('venues.id'))
+    venue:Mapped['Venue'] = relationship(back_populates="price_manager")
+    standerd_price: Mapped[int] = mapped_column(default=1000, nullable=False)
+    

@@ -60,11 +60,11 @@ export const venueCreateFeatureslice = createSlice({
         categories: [] as categoriesProp[],
         amenities: [] as amenityProp[],
         initialLoading: false,
-        locationStreetAddress: '',
-        cityName: '',
-        districtName: '',
-        stateName: '',
-        country: '',
+        locationStreetAddress: 'Kazhakootam',
+        cityName: 'Thiruvananathapuram',
+        districtName: 'thiruvananathauram',
+        stateName: 'kerala',
+        country: 'India',
     },
     // Reducers are the methods used to update the states.
     reducers: {

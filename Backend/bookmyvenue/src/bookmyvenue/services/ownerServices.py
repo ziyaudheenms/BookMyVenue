@@ -1,11 +1,15 @@
+from ast import List
 from typing import Optional
 import uuid
 
 from fastapi import HTTPException, status
+from pydantic import Json
 import structlog
 from sqlalchemy.orm import Session
 
 
+from src.bookmyvenue.models.common import Venue
+from src.bookmyvenue.schema.common.common import ImageKitVenueUrls, VenueSchema
 from src.bookmyvenue.models.owners import Owner
 from src.bookmyvenue.models.user import User
 from src.bookmyvenue.repositories.users.repository import userRepository
@@ -32,7 +36,7 @@ class OwnerService:
         if not current_user:
             logger.error("user record not found" ,clerk_id=current_user_id)
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="user not found in DB")
-        owner_record = ownerRepository.get_owner_record(db, current_user)
+        owner_record = ownerRepository.get_owner_record_by_ID(db, current_user_id)
         if owner_record:
             logger.error("owner has already onboarded" ,clerk_id=current_user_id)
             raise HTTPException(status_code=status.HTTP_201_CREATED,detail="Owner onboadred completed!")
@@ -41,6 +45,13 @@ class OwnerService:
 
         return owner_record
         
+    def create_new_venue(self, db:Session, owner_user:Owner,payload:Json[VenueSchema],media:ImageKitVenueUrls) -> Venue:
+        #if a vnue with same name , city and same location exists alreday for the respective owner
+        duplicate_checker = ownerRepository.duplicate_venue_checker(db=db, owner=owner_user, city=payload.city, street_address=payload.street_address, name=payload.name)
+        
+        venue_instance = ownerRepository.create_venue_record(db=db, owner=owner_user, payload=payload, media_files=media)
+        return venue_instance
+
         
         
         

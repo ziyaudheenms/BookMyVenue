@@ -65,7 +65,7 @@ def admin_only_route(request: Request,db:Session = Depends(get_the_db_Session)):
 #Role based check for owner
 def owner_only_route(request: Request,db:Session = Depends(get_the_db_Session)):
     user_id = get_the_current_user(request=request)  #passing the request to the function
-    owner_user = ownerRepository.get_owner_record(db,user_id)
+    owner_user = ownerRepository.get_owner_record_by_ID(db,user_id)
     
     if not owner_user:
         logger.error("Forbidden request, only allowed for the owners to access" ,clerk_id=user_id)

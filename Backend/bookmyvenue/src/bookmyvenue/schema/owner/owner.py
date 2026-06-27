@@ -9,3 +9,4 @@ class OwnerOnboardingSchema(BaseModel):
     profession: Optional[str] = None
     promise: str
     self_info: Optional[str] = None
+

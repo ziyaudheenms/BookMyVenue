@@ -4,6 +4,7 @@ from typing import List
 from pydantic import BaseModel, ConfigDict
 
 
+from src.bookmyvenue.schema.common.common import VenueSchema
 from src.bookmyvenue.schema.admin.admin import AmenitySchema, CategorySchema
 from src.bookmyvenue.schema.user.user import UserSchema
 
@@ -41,6 +42,10 @@ class AmenityFetchedResponce(BaseResponceClass):
     model_config = ConfigDict(from_attributes=True)
     data: List[ResponceAmenitySchema]
 
+
+class CreatedVenueResponce(BaseResponceClass):
+    model_config = ConfigDict(from_attributes=True)
+    data: VenueSchema
 
 class UserUpdatedResponce(BaseResponceClass):
     responce_type:str = "ResourceUpdated"

@@ -1,7 +1,8 @@
 from decimal import Decimal
-from typing import List
-from sqlalchemy import ARRAY, Boolean, Column, ForeignKey, Numeric, String, Table, Text
+from typing import List, Optional
+from sqlalchemy import ARRAY, Boolean, Column, DateTime, ForeignKey, Numeric, String, Table, Text, false, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import datetime
 from src.bookmyvenue.core.database import Base
 
 venue_category_table = Table(
@@ -48,13 +49,31 @@ class Venue(Base):
     minimum_slot_duration: Mapped[int] = mapped_column(default=2, nullable=False)
     cancellation_time_limit: Mapped[int] = mapped_column(default=0, nullable=False)
     total_reviews: Mapped[int] = mapped_column(default=0, nullable=False)
+    hourly_rent: Mapped[int] = mapped_column(default=1000, nullable=False)
+    approval_status: Mapped[bool] = mapped_column(default=False, nullable=False)
+    rejection_reason: Mapped[str] = mapped_column(Text, nullable=True)
     overall_rating: Mapped[Decimal] = mapped_column(
         Numeric(precision=5,scale=2), #precision refers with the total numbers exist with scale which determines no of digits after decimal point
         default=Decimal("0.00"),
         nullable=False,
     )
     gallery: Mapped[List[str]] = mapped_column(ARRAY(String), default=list, nullable=False)
-   
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now() # when a user is created add the server's that respective time in the created_at column
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(), # when a user is created add the server's that respective time in the created_at column
+        onupdate=func.now() # when a user updates the exisiting model
+    )
+
+    price_manager: Mapped[Optional['PriceManager']] = relationship(
+        back_populates='venues',
+        cascade="all, delete-orphan"
+    )
+
+
     def __repr__(self) -> str:
         return f"<Venue(id={self.id}, name={self.name!r})>"
 

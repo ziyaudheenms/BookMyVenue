@@ -1,11 +1,19 @@
-from fastapi import APIRouter, Depends
+from typing import List
+
+from pydantic import Json, ValidationError
+
+from src.bookmyvenue.models.owners import Owner
+from src.bookmyvenue.schema.common.common import VenueSchema
+from fastapi import APIRouter, Depends, Form, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 import structlog
+from src.bookmyvenue.services import commonService
 from src.bookmyvenue.schema.owner.owner import OwnerOnboardingSchema
-from src.bookmyvenue.schema.responce.responces import UserCreatedResponce, UserUpdatedResponce
-from src.bookmyvenue.api.deps import  get_the_current_user, get_the_db_Session
+from src.bookmyvenue.schema.responce.responces import CreatedVenueResponce, UserCreatedResponce, UserUpdatedResponce
+from src.bookmyvenue.api.deps import  get_the_current_user, get_the_db_Session, owner_only_route
 from src.bookmyvenue.services.ownerServices import ownerservice
+from src.bookmyvenue.services.adminService import adminservice
 
 
 load_dotenv()
@@ -42,3 +50,39 @@ def complete_onboarding(
     logger.info(f"onboarded the owner successfully" , clerk_id=current_user_id)
     return UserUpdatedResponce(status_code=200,message="successfully updated the profile")
 
+
+@router.post('/venue' , response_model=CreatedVenueResponce)
+async def create_venue_lisiting(
+    payload: str = Form(...),
+    cover_image: UploadFile = File(...),
+    gallery: List[UploadFile] = File(...),
+    db:Session = Depends(get_the_db_Session),
+    owner:Owner = Depends(owner_only_route)
+):
+    
+
+    try:
+        payload_data =VenueSchema.model_validate_json(payload)
+    except ValidationError as e:
+        # If there are any field typos or missing items, this will catch them
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=e.errors()
+        )
+    #first lets upload the urls in the imagekit
+    imagekit_uploaded_media = await adminservice.upload_venue_images(cover_image=cover_image,gallery=gallery)
+
+    created_venue_instance = ownerservice.create_new_venue(db=db,owner_user=owner, payload=payload_data, media=imagekit_uploaded_media)
+
+    if not created_venue_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="cant create new venue instance"
+        )
+
+    return {
+        "status_code": 200,
+        "message": "fetched the amenities successfully",
+        "data": created_venue_instance
+    }
+    

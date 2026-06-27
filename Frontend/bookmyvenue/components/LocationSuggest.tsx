@@ -86,7 +86,7 @@ function LocationSuggest({ fieldName, dummyPlaceholder, type }: InputProps) {
                     setIsBrowsing(true)
                     setQuery(e.target.value)
                 }}
-                required
+           
             />
             {
                 suggestionPannel ? (
