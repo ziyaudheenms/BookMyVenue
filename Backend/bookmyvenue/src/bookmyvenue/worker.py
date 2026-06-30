@@ -10,8 +10,7 @@ app = Celery(
 
 #auto-discover is used to look into the tasks.py files present inside the src.bookmyvenue package which may contain many other sub modules.
 app.autodiscover_tasks(
-    packages=["src.bookmyvenue.services"],
-    related_name="*task"
+    packages=['src.bookmyvenue.BackgroundWorker.Owner']
 )
 
 app.conf.update(

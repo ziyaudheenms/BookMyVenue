@@ -4,16 +4,15 @@ import structlog
 from typing import List
 
 from celery import shared_task
-from fastapi import HTTPException, status
 from sqlalchemy import select
 from src.bookmyvenue.models.common import Venue
 from src.bookmyvenue.core.database import session
 from src.bookmyvenue.utils.image_kit import imagekit
-
+from src.bookmyvenue.worker import app
 logger = structlog.get_logger()
 
 
-@shared_task
+@app.task
 def upload_media_to_imagekit(venue_id:int,cover_image,gallery:List,venue_name:str):
     db = session()
 
@@ -28,10 +27,10 @@ def upload_media_to_imagekit(venue_id:int,cover_image,gallery:List,venue_name:st
         
         if not venue:
             logger.error("venue not found for the given id" , venueid = venue_id)
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="venue record not found in the DB"
-            )
+            return {
+                "status_code":400,
+                "message": "venue not found"
+            }
         
         venue.task_status = 'Uploading'
 
@@ -65,19 +64,18 @@ def upload_media_to_imagekit(venue_id:int,cover_image,gallery:List,venue_name:st
                     gallery_urls.append(uploaded_media_gallery.url) ## appending the gallery urls back.
                 
                 idx += 1
+            
+            venue.cover_image = cover_image_url
+            venue.gallery = gallery_urls
+            venue.task_status = 'Completed'
+            db.commit()
 
         except Exception as e:
             logger.info("Can't upload the media",   venueid = venue_id, task_id = venue.celery_task_ID)
             venue.task_status = "Failed"
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="some error occured while uploading"
-            )
+            raise e
         
-        venue.cover_image = cover_image_url
-        venue.gallery = gallery_urls
-        venue.task_status = 'Completed'
-        db.commit()
+        
 
     except Exception as e:
         db.rollback()

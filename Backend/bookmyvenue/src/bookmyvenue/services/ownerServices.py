@@ -17,7 +17,7 @@ from src.bookmyvenue.repositories.users.repository import userRepository
 from src.bookmyvenue.repositories.owner.repository import ownerRepository
 from src.bookmyvenue.schema.user import user
 from src.bookmyvenue.schema.owner import owner
-from src.bookmyvenue.services.ownertask import upload_media_to_imagekit
+from src.bookmyvenue.BackgroundWorker.Owner.tasks import upload_media_to_imagekit
 
 logger = structlog.get_logger()
 
