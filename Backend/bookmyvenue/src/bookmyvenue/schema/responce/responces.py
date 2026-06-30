@@ -45,7 +45,7 @@ class AmenityFetchedResponce(BaseResponceClass):
 
 class CreatedVenueResponce(BaseResponceClass):
     model_config = ConfigDict(from_attributes=True)
-    data: VenueSchema
+    data: str
 
 class UserUpdatedResponce(BaseResponceClass):
     responce_type:str = "ResourceUpdated"

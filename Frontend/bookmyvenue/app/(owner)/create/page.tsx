@@ -212,7 +212,7 @@ function CreateVenuePage() {
       })
       .catch((err) => {
         console.log(err)
-        if (err.response && err.response.status_code === 404) {
+        if (err.response) {
           toast.info(err.response.message)
         }
       })

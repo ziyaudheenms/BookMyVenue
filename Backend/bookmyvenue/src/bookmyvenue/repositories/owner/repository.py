@@ -1,8 +1,8 @@
-from fastapi import HTTPException, UploadFile,status
+from fastapi import File, HTTPException, UploadFile,status
 from pydantic import Json
 from sqlalchemy import Select
 import structlog
-from typing import Optional
+from typing import List, Optional
 from sqlalchemy.orm import Session
 
 from src.bookmyvenue.models.admin import Amenity, Category
@@ -47,7 +47,7 @@ class OwnerRepository:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT , detail="already an venue exists with same name in same city at same location")
         
         return False
-    def create_venue_record(self, db:Session, owner:Owner, payload:Json[VenueSchema], media_files: ImageKitVenueUrls) -> Venue:
+    def create_venue_record(self, db:Session, owner:Owner, payload:Json[VenueSchema]) -> Venue:
         # we have to decode the categories and amenities first sice we have to apply relation with them
 
         category_command = Select(Category).where(Category.id.in_(payload.categories))
@@ -75,12 +75,11 @@ class OwnerRepository:
             country = payload.country,
             location_url = payload.location_url,
             description = payload.description,
-            cover_image = media_files.cover_image_url,
             cancellation_percentage = payload.cancellation_percentage,
             minimum_slot_duration = payload.minimum_slot_duration,
             cancellation_time_limit = payload.cancellation_time_limit,
             hourly_rent = payload.hourly_rent,
-            gallery = media_files.gallery_images,  
+            task_status = "Pending"
         )
 
         db.add(venue_instance)

@@ -52,6 +52,8 @@ class Venue(Base):
     hourly_rent: Mapped[int] = mapped_column(default=1000, nullable=False)
     approval_status: Mapped[bool] = mapped_column(default=False, nullable=False)
     rejection_reason: Mapped[str] = mapped_column(Text, nullable=True)
+    task_status: Mapped[str] = mapped_column(String(255),  default='Pending' , nullable=True)   #options available --->  *Pending , *Uploading, *Completed, *Failed
+    celery_task_ID: Mapped[str] = mapped_column(Text, nullable=True)
     overall_rating: Mapped[Decimal] = mapped_column(
         Numeric(precision=5,scale=2), #precision refers with the total numbers exist with scale which determines no of digits after decimal point
         default=Decimal("0.00"),
@@ -69,7 +71,7 @@ class Venue(Base):
     )
 
     price_manager: Mapped[Optional['PriceManager']] = relationship(
-        back_populates='venues',
+        back_populates='venue',
         cascade="all, delete-orphan"
     )
 

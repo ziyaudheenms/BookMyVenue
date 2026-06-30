@@ -15,6 +15,8 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str | None = database_url
 
+    UPSTASH_REDIS_CELERY_URL: str = os.getenv("UPSTASH_REDIS_CELERY_URL") or ""
+    CELERY_RESULT_BACKEND: str = f"db+{DATABASE_URL}"
 
     model_config = SettingsConfigDict(
         # Read from a local environment file if variables are not in env

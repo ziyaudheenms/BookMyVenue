@@ -69,10 +69,15 @@ async def create_venue_lisiting(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=e.errors()
         )
-    #first lets upload the urls in the imagekit
-    imagekit_uploaded_media = await adminservice.upload_venue_images(cover_image=cover_image,gallery=gallery)
+    
+    #first create a venue table with metadata , along with task_status = 'pending'
+    #call the media upload task
+    #save the task id in the venue table
+    #return added to queue responce
 
-    created_venue_instance = ownerservice.create_new_venue(db=db,owner_user=owner, payload=payload_data, media=imagekit_uploaded_media)
+    
+
+    created_venue_instance = ownerservice.create_new_venue(db=db,owner_user=owner, payload=payload_data, cover_image=cover_image, gallery=gallery)
 
     if not created_venue_instance:
         raise HTTPException(
@@ -82,7 +87,7 @@ async def create_venue_lisiting(
 
     return {
         "status_code": 200,
-        "message": "fetched the amenities successfully",
-        "data": created_venue_instance
+        "message": "Successfully added the venue to the queue",
+        "data": f"{created_venue_instance.name}-{created_venue_instance.task_status}"
     }
     
